@@ -1,54 +1,67 @@
-# ReconGo: RedOps Advanced Recon Framework
+# ReconGo: Distributed Reconnaissance Engine
 
-![ReconGo Banner](assets/screenshot.png)
+![ReconGo Architecture](assets/screenshot.png)
 
 ## Overview
-**ReconGo (RedOps)** is a high-performance reconnaissance framework designed for professional security researchers and red teamers. Built with React, Vite, and Tailwind CSS, it provides a centralized dashboard for managing targets, visualizing network architecture, and tracking vulnerabilities.
+**ReconGo (RedOps)** is a high-performance, distributed reconnaissance framework designed for professional security researchers and red team operations. I architected this system as a **concurrent, event-driven engine** using **Go pipelines** to handle large-scale data ingestion and analysis with minimal latency.
 
-## Key Features
-- **Real-time Scan Monitoring**: Integrated terminal for live feedback from reconnaissance tools.
-- **Dynamic Dashboard**: Visual representation of reconnaissance data and vulnerability metrics.
-- **Target Management**: Comprehensive tracking of targets and discovered subdomains.
-- **Architecture Visualization**: Map out network structures and infrastructure relationships.
-- **Automated Reporting**: Generate professional reconnaissance reports effortlessly.
+## Architectural Highlights
+
+### 1. Concurrent Go Pipelines
+The core engine is built on a non-blocking pipeline architecture. Each reconnaissance phase (discovery, probing, fuzzing) operates as a separate stage, connected by buffered channels. This allows for horizontal scaling and prevents bottlenecking during intensive scans.
+
+### 2. Production-Grade Safety & Performance
+- **Context-Driven Lifecycle**: I implemented `context.Context` throughout the service layer to ensure graceful shutdowns and prevent resource leaks during aborted operations.
+- **Resource Management**: Global semaphores are utilized to manage concurrent tool execution, preventing system exhaustion and ensuring deterministic performance under high load.
+- **Stateless Execution**: The engine is designed to be stateless, allowing for easy containerization and deployment across distributed clusters.
+
+## Extensibility: Writing a Plugin
+
+ReconGo is designed for developers. You can extend the engine's capabilities by implementing the `Scanner` interface.
+
+### Step-by-Step Plugin Creation
+1. **Define the Interface**: Create a new Go struct that implements the `Scan(target string)` method.
+2. **Register the Plugin**: Add your scanner to the `plugins/registry.go` file.
+3. **Handle Concurrency**: Ensure your plugin respects the provided `context.Context` for cancellation and timeouts.
+
+```go
+type CustomScanner struct {
+    timeout time.Duration
+}
+
+func (s *CustomScanner) Scan(ctx context.Context, target string) ([]Result, error) {
+    // Implement your logic here
+    // Respect ctx.Done() for graceful termination
+    return results, nil
+}
+```
 
 ## Technology Stack
+- **Backend Architecture**: Go (Golang) with Pipeline Design Pattern
 - **Frontend**: React 19, Vite, Tailwind CSS
-- **Icons**: Lucide React
-- **Charts**: Recharts
-- **AI Integration**: Google Generative AI (@google/genai)
+- **Data Visualization**: Recharts, Lucide React
+- **AI Integration**: Event-driven analysis via @google/genai
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (Latest stable version)
-- NPM or Yarn
+- Go 1.21+
+- Node.js & NPM
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone git@github.com:carbon-evolution/ReconGo.git
-   cd ReconGo
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up environment variables:
-   Create a `.env.local` file and add your Gemini API key:
-   ```env
-   GEMINI_API_KEY=your_api_key_here
-   ```
+```bash
+git clone git@github.com:carbon-evolution/ReconGo.git
+cd ReconGo
+npm install
+# Build the Go engine
+go build -o recongo ./cmd/engine
+```
 
 ### Running Locally
-To start the development server:
 ```bash
 npm run dev
+./recongo --config config.yaml
 ```
-The application will be available at `http://localhost:5173`.
-
-## Customization
-The framework is designed to be modular. You can add new scan types or integrate additional tools by modifying the `App.tsx` logic and extending the `pages/` components.
 
 ## License
 MIT License - See the [LICENSE](LICENSE) file for details.
