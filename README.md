@@ -1,20 +1,54 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ReconGo: RedOps Advanced Recon Framework
 
-# Run and deploy your AI Studio app
+![ReconGo Banner](assets/screenshot.png)
 
-This contains everything you need to run your app locally.
+## Overview
+**ReconGo (RedOps)** is a high-performance reconnaissance framework designed for professional security researchers and red teamers. Built with React, Vite, and Tailwind CSS, it provides a centralized dashboard for managing targets, visualizing network architecture, and tracking vulnerabilities.
 
-View your app in AI Studio: https://ai.studio/apps/drive/12I-LKgD-CTi-CkPd7-1yuQ9nlB4cbU83
+## Key Features
+- **Real-time Scan Monitoring**: Integrated terminal for live feedback from reconnaissance tools.
+- **Dynamic Dashboard**: Visual representation of reconnaissance data and vulnerability metrics.
+- **Target Management**: Comprehensive tracking of targets and discovered subdomains.
+- **Architecture Visualization**: Map out network structures and infrastructure relationships.
+- **Automated Reporting**: Generate professional reconnaissance reports effortlessly.
 
-## Run Locally
+## Technology Stack
+- **Frontend**: React 19, Vite, Tailwind CSS
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **AI Integration**: Google Generative AI (@google/genai)
 
-**Prerequisites:**  Node.js
+## Getting Started
 
+### Prerequisites
+- Node.js (Latest stable version)
+- NPM or Yarn
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:carbon-evolution/ReconGo.git
+   cd ReconGo
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   Create a `.env.local` file and add your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+### Running Locally
+To start the development server:
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:5173`.
+
+## Customization
+The framework is designed to be modular. You can add new scan types or integrate additional tools by modifying the `App.tsx` logic and extending the `pages/` components.
+
+## License
+MIT License - See the [LICENSE](LICENSE) file for details.
