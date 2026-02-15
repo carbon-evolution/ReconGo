@@ -1,0 +1,5 @@
+{
+  "name": "RedOps: Advanced Recon Framework",
+  "description": "A modular, web-based cybersecurity lab framework for automated web reconnaissance, vulnerability management, and red team operations.",
+  "requestFramePermissions": []
+}
